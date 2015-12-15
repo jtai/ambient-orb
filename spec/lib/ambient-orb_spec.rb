@@ -98,6 +98,7 @@ describe AmbientOrb do
 
   describe '#send' do
 
+    let (:options) { { :device => '/dev/zero' } }
     let (:io) { IO.new }
 
     it 'sends commands' do
