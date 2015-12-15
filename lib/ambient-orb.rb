@@ -8,11 +8,13 @@ class AmbientOrb
 
   def device
     @device ||= begin
-      if @opts[:device]
-        @opts[:device]
-      else
-        autodetect_device
+      dev = @opts[:device] || autodetect_device
+
+      unless dev && File.exist?(dev) && File.stat(dev).chardev?
+        raise ArgumentError, 'invalid device'
       end
+
+      dev
     end
   end
 
