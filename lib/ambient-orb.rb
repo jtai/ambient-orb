@@ -1,4 +1,5 @@
 require 'ambient-orb/version'
+require 'logger'
 require 'serialport'
 
 class AmbientOrb
@@ -42,7 +43,15 @@ class AmbientOrb
         raise ArgumentError, 'invalid device'
       end
 
+      logger.info("selected device #{dev}")
+
       dev
+    end
+  end
+
+  def logger
+    @logger ||= begin
+      @opts[:logger] || Logger.new(nil)
     end
   end
 
@@ -55,6 +64,8 @@ class AmbientOrb
       raise ArgumentError, 'animation must be between 0 and 9'
     end
 
+    logger.info("updating with color=#{color}, animation=#{animation}")
+
     color_ord     = (color + (37 * animation)) / 94 + 32
     animation_ord = (color + (37 * animation)) % 94 + 32
 
@@ -64,7 +75,13 @@ class AmbientOrb
   private
 
   def autodetect_device
-    Dir.glob('/dev/*.usbmodem*').first
+    devices = Dir.glob('/dev/*.usbmodem*')
+
+    devices.each do |dev|
+      logger.debug("autodetect_device found #{dev}")
+    end
+
+    devices.first
   end
 
   def send(command)
@@ -73,7 +90,10 @@ class AmbientOrb
                     SERIAL_PORT_DATA_BITS,
                     SERIAL_PORT_STOP_BITS,
                     SERIAL_PORT_PARITY) do |serial_port|
+      logger.debug('send "~GT"')
       serial_port.puts '~GT'
+
+      logger.debug("send \"#{command}\"")
       serial_port.puts command
     end
   end

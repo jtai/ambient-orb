@@ -13,6 +13,10 @@ orb = AmbientOrb.new
 # a device can be passed manually
 #orb = AmbientOrb.new(:device => '/dev/ttyS0')
 
+# a logger can also be passed
+#orb = AmbientOrb.new(:logger => Logger.new(STDOUT))
+#orb.logger.level = Logger::DEBUG
+
 [
   AmbientOrb::COLOR_RED,
   AmbientOrb::COLOR_ORANGE,
