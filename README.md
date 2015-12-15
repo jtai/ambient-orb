@@ -18,12 +18,12 @@ orb = AmbientOrb.new
 #orb.logger.level = Logger::DEBUG
 
 [
-  [ AmbientOrb::COLOR_GREEN,  AmbientOrb::ANIMATION_VERY_SLOW ],
-  [ AmbientOrb::COLOR_BLUE,   AmbientOrb::ANIMATION_SLOW ],
+  [ AmbientOrb::COLOR_GREEN,  AmbientOrb::ANIMATION_VERY_SLOW   ],
+  [ AmbientOrb::COLOR_BLUE,   AmbientOrb::ANIMATION_SLOW        ],
   [ AmbientOrb::COLOR_PURPLE, AmbientOrb::ANIMATION_MEDIUM_SLOW ],
-  [ AmbientOrb::COLOR_YELLOW, AmbientOrb::ANIMATION_MEDIUM ],
-  [ AmbientOrb::COLOR_ORANGE, AmbientOrb::ANIMATION_FAST ],
-  [ AmbientOrb::COLOR_RED,    AmbientOrb::ANIMATION_VERY_FAST ],
+  [ AmbientOrb::COLOR_YELLOW, AmbientOrb::ANIMATION_MEDIUM      ],
+  [ AmbientOrb::COLOR_ORANGE, AmbientOrb::ANIMATION_FAST        ],
+  [ AmbientOrb::COLOR_RED,    AmbientOrb::ANIMATION_VERY_FAST   ],
 ].each do |(color, animation)|
   orb.update(color, animation)
   sleep(10)
