@@ -29,3 +29,23 @@ orb = AmbientOrb.new
   sleep(10)
 end
 ```
+
+## Hardware Setup
+
+This gem has been tested with two hardware setups.
+
+### Arduino Uno R3
+
+Using the Arduino Uno R3 as a [USB to serial TTL converter](http://www.princetronics.com/arduino-uno-as-usb-to-serial-ttl-converter/). The R3 uses an atmega16u2 chip.
+
+ * Connect Pin 5 (RX) on the Orb to Pin 0 (RX) on the Arduino.
+ * Connect Pin 6 (TX) on the Orb to Pin 1 (TX) on the Arduino.
+ * Connect RESET to GND on the Arduino.
+
+### FT232R USB to 5V TTL level UART cable
+
+Using the [EZSync FTDI chip usb to 5v TTL UART serial cable, connector end, 1.5m, TTL-232R-5V compatible](http://www.amazon.com/gp/product/B010KII6VG?psc=1&redirect=true&ref_=oh_aui_detailpage_o00_s00) cable. This cable uses the FT232R chip.
+
+ * Connect Pin 5 (RX) on the Orb to Pin 4 (TXD, Orange) on the cable.
+ * Connect Pin 6 (TX) on the Orb to Pin 5 (RXD, Yellow) on the cable.
+

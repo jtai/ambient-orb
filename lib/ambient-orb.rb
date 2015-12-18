@@ -49,6 +49,20 @@ class AmbientOrb
     end
   end
 
+  def chip
+    @chip ||= begin
+      chip = @opts[:chip] || autodetect_chip
+
+      unless chip
+        raise ArgumentError, 'invalid chip'
+      end
+
+      logger.info("using chip #{chip}")
+
+      chip
+    end
+  end
+
   def logger
     @logger ||= begin
       @opts[:logger] || Logger.new(nil)
@@ -75,7 +89,7 @@ class AmbientOrb
   private
 
   def autodetect_device
-    devices = Dir.glob('/dev/*.usbmodem*')
+    devices = Dir.glob('/dev/*.usbmodem*') + Dir.glob('/dev/*.usbserial*')
 
     devices.each do |dev|
       logger.debug("autodetect_device found #{dev}")
@@ -84,17 +98,33 @@ class AmbientOrb
     devices.first
   end
 
+  def autodetect_chip
+    case device
+    when /usbmodem/
+      # Arduino Uno R3
+      :atmega16u2
+    when /usbserial/
+      # FT232R USB to 5V TTL level UART cable
+      :ft232r
+    end
+  end
+
   def send(command)
     SerialPort.open(device,
                     SERIAL_PORT_BAUD_RATE,
                     SERIAL_PORT_DATA_BITS,
                     SERIAL_PORT_STOP_BITS,
                     SERIAL_PORT_PARITY) do |serial_port|
-      logger.debug('send "~GT"')
-      serial_port.puts '~GT'
+
+      if chip == :atmega16u2
+        logger.debug('send "~GT"')
+        serial_port.puts '~GT'
+      end
 
       logger.debug("send \"#{command}\"")
       serial_port.puts command
+
+      serial_port.readchar
     end
   end
 
